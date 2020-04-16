@@ -5,21 +5,10 @@ exports.handler = function (event, context, callback) { // event contiene le inf
 `
     let body
 
-    if (event.body) {
-        body = JSON.parse(event.body)
-      } else {
-        body = {}
-      }
-    
-      if (body.password == "javascript") {
-        callback(null, {
-          statusCode: 200,
-          body: secretContent
-        })
-      } else {
-        callback(null, {
-          statusCode: 401
-        })
-      }
+    event.body ? body = JSON.parse(event.body) : body = {} // se esiste una richiesta, il testo effettivo inserito, la vogliamo postare come dati JSON cioè trasformarla in JS, se no il corpo sarà un oggetto vuoto
+
+    body.password == "javascript" ? callback(null, { statusCode: 200, body: secretContent }) : callback(null, {
+        statusCode: 401
+    }) // se la password nel body è quella prevista allora richiama la funzione che mostra il risultato (200 è successo), se no mostra errore   
     
 }
